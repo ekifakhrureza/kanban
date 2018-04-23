@@ -2,34 +2,34 @@
   <div class="col">
     <table class="table table-bordered">
       <thead>
-        <tr class="table-danger">
-          <th scope="col">Back-Log</th>
+        <tr class="table-primary">
+          <th scope="col">Doing</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <table class="table table-bordered" v-for="(backlog,index) in getBacklog" :key="index">
+          <table class="table table-bordered" v-for="(doing,index) in getDoing" :key="index">
             <thead>
               <tr>
                 <th scope="col" colspan="3">
-                  <p style="color: red">{{ backlog.task }}</p>
+                  <p style="color: red">{{ doing.task }}</p>
                 </th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td scope="row"><b>Description : </b> {{ backlog.description }}</td>
+                <td scope="row"><b>Description : </b> {{ doing.description }}</td>
               </tr>
               <tr>
-                <td scope="row"><b>Point : </b> {{ backlog.point }}</td>
+                <td scope="row"><b>Point : </b> {{ doing.point }}</td>
               </tr>
               <tr>
-                <td scope="row"><b>Assign: </b> {{ backlog.assign }}</td>
+                <td scope="row"><b>Assign: </b> {{ doing.assign }}</td>
               </tr>
               <tr>
                 <td>
                   <div class="col-2">
-                    <button type="button" class="btn btn-success" data-toggle="modal" :data-target="'#' + index" data-whatever="@getbootstrap">Manage</button>
+                    <button type="button" class="btn btn-success" data-toggle="modal" :data-target="'#' + index"  data-whatever="@getbootstrap">Manage</button>
                   </div>
                 </td>
               </tr>
@@ -39,23 +39,24 @@
                     <div class="modal-dialog" role="document">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title">{{ backlog.task }}</h5>
-                          <button type="button" :class="'close' + index" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+                          <h5 class="modal-title">{{ doing.task }}</h5>
+                          <button type="button" :class="'close' + index"  data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
                         </div>
                         <div class="modal-body">
-                          <b>Description : </b> {{ backlog.description }}
+                          <b>Description : </b> {{ doing.description }}
                         </div>
-                        <div class="modal-body">
-                          <b>Point : </b> {{ backlog.point }}
+                         <div class="modal-body">
+                          <b>Point : </b> {{ doing.point }}
                         </div>
-                        <div class="modal-body">
-                          <b>Assign : </b> {{ backlog.assign }}
+                         <div class="modal-body">
+                          <b>Assign : </b> {{ doing.assign }}
                         </div>
                         <div class="modal-footer">
-                          <button type="button" @click="remove(index,backlog.task)" class="btn btn-dark">Delete</button>
-                          <button type="button" @click="move(index,backlog,'backlog','todo')" class="btn btn-warning">To-Do</button>
+                           <button type="button" @click="move(index,doing,'doing','todo')" class="btn btn-warning">To-Do</button>
+                          <button type="button" @click="remove(index,doing.task)" class="btn btn-dark">Delete</button>
+                          <button type="button" @click="move(index,doing,'doing','done')" class="btn btn-success">Done</button>
                         </div>
                       </div>
                     </div>
@@ -74,9 +75,8 @@
 import {
   mapActions, mapGetters
 } from 'vuex'
-
 export default {
-  name: 'Backlog',
+  name: 'Doing',
   methods: {
     ...mapActions(['getAllTask', 'removeTask', 'moveTask']),
     remove (index, task) {
@@ -84,7 +84,7 @@ export default {
       if (confirmation) {
         let delTask = {
           key: index,
-          status: 'backlog'
+          status: 'doing'
         }
         this.removeTask(delTask)
         document.querySelector('.close' + index).click()
@@ -117,7 +117,7 @@ export default {
     this.getAllTask()
   },
   computed: {
-    ...mapGetters(['getBacklog'])
+    ...mapGetters(['getDoing'])
   }
 }
 </script>
